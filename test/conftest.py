@@ -16,6 +16,7 @@ from pyspark.sql import SparkSession
 @pytest.fixture(scope="session")
 def spark_session(request):
     spark = SparkSession.builder.master("local[*]").appName("TestTransformations")\
+                        .config("spark.sql.legacy.timeParserPolicy", "LEGACY")\
                         .getOrCreate()
 
     return spark

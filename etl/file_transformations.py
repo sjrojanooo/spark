@@ -1,7 +1,9 @@
 import os
 import re
-from io import StringIO, BytesIO
+import csv
+from io import StringIO, TextIOWrapper
 from zipfile import ZipFile
+
 
 def return_zipfile(data_dir: str) -> str:
     adidas_file = ''; 
@@ -14,18 +16,16 @@ def return_target_member(zo: object) -> str:
 
 def unzip_in_memory(file: str) -> list:
     in_memory_data = StringIO()
+    writer = csv.writer(in_memory_data, delimiter='|')
     with ZipFile(file) as fo: 
         target_file_member = return_target_member(fo)
         with fo.open(target_file_member, mode='r') as file_contents:
-            decode_contents = '\n'.join([x.decode() for x in file_contents.readlines()])
-            in_memory_data.write(decode_contents)
+            reader = csv.reader(TextIOWrapper(file_contents, 'utf-8'))
+            writer.writerows(reader)
     return in_memory_data.getvalue()
 
-def format_columns(columns: list) -> list: 
-    clean_columns = [re.sub('(\s+)', '_', header.strip()) for header in columns]
-    return clean_columns
-
 def clean_data_and_columns(in_memory_data: str) -> tuple:
-    columns = format_columns(in_memory_data.split('\r\n')[:1])
-    data = [row.strip().split('\n') for row in in_memory_data[1:].split('\r\n')]
+    split_data = in_memory_data.split('\n')
+    columns = [re.sub('(\s{1})','_', x.strip()).split('|') for x in split_data[:1]][0]
+    data = [re.sub('\r', '', x).split('|') for x in split_data[1:]]
     return data, columns
