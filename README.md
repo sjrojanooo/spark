@@ -38,7 +38,9 @@ Basic Docker commands.
 6. If you want to completely remove the image, to force remove you wil add and `-f` flag after the rmi. 
   * `docker rmi <image_id>`
 
-If you want to view what made up the layer image you can run `docker image history spark`. 
+If you want to view what made up the layer image you can run `docker image history spark`. Finally, to view the images that are in use, you can open up the Docker Destkop and view the images. 
+
+![Image](https://github.com/sjrojanooo/spark/blob/main/images/in-use-images.png)
 
 ### What are we installing? 
 * python
