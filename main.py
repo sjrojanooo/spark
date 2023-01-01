@@ -9,7 +9,6 @@ def main():
     adidas_file = file_transformations.return_zipfile('./data')
     in_memory_data = file_transformations.unzip_in_memory(adidas_file)
     data, columns = file_transformations.clean_data_and_columns(in_memory_data)
-    
     adidas_df = adidas_transformations.create_dataframe(spark, data, columns)
     adidas_df.show(truncate=False)
 if __name__ == '__main__':
