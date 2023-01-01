@@ -17,7 +17,7 @@ Spark uses the driver to distribute chunks of data to different executors, a pro
 # Data Engineering Experience 
 Earlier this year I was given a wonderful opportunity to work with Apache Spark to help build, and be apart of a migration (moving from one system to another). It was quite a change from working solely with the pandas dataframes and small csv, and excel files, but I always welcome the challenge. I think working through challenges promotes the best growth. It has been such a great experience, and I feel like I have only scratched the surface in this brief introduction to the Data Engineering World. 
 
-I wanted to have some fun and use open source data sets provided in the "Our World in Data" Repo [here](https://github.com/owid/owid-datasets/tree/master/datasets) to use the functionalities enabled from the SparkSession. 
+I wanted to have some fun and use open source data sets provided by Kaggle "Adidas Sales" to use the functionalities enabled from the SparkSession. 
 
 # Docker 
 # Build Docker Image 
