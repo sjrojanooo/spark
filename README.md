@@ -17,6 +17,38 @@ Spark uses the driver to distribute chunks of data to different executors, a pro
 # Data Engineering Experience 
 Earlier this year I was given a wonderful opportunity to work with Apache Spark to help build, and be apart of a migration (moving from one system to another). It was quite a change from working solely with the pandas dataframes and small csv, and excel files, but I always welcome the challenge. I think working through challenges promotes the best growth. It has been such a great experience, and I feel like I have only scratched the surface in this brief introduction to the Data Engineering World. 
 
-I wanted to have some fun and use open source data sets provided in the "Our World in Data" Repo [here](https://github.com/owid/owid-datasets/tree/master/datasets) to use the functionalities enabled from the SparkSession. Although I wont be use an EC2 instance (unless someone wants to pay for it) I will still be able to read, transform, and write our data. 
+I wanted to have some fun and use open source data sets provided in the "Our World in Data" Repo [here](https://github.com/owid/owid-datasets/tree/master/datasets) to use the functionalities enabled from the SparkSession. 
 
-# I will update the step by step process in a different commit here. 
+# Docker 
+# Build Docker Image 
+The docker image will containerize the application and make readily available for you. 
+To run this make sure you have Docker installed. It can be found [here](https://docs.docker.com/engine/install/). After installation you can build the image following the list of commands. Once you've built the images, you can open up the docker desktop to view the images that are in use. 
+
+Basic Docker commands. 
+1. To build and name the image
+  * `docker build -t spark .`
+2. Run the image in "detached mode", calling the name you just gave it in the build command. 
+  * `docker run -d spark`
+3. This will show the list of running images with an active status
+  * `docker ps`
+4. Will show a list of images running with any type of status
+  * `docker ps -a`
+5. Stops a container, you much provide the container id. 
+  * `docker stop <containter_id>`
+6. If you want to completely remove the image, to force remove you wil add and `-f` flag after the rmi. 
+  * `docker rmi <image_id>`
+
+If you want to view what made up the layer image you can run `docker image history spark`. 
+
+### What are we installing? 
+* python
+* spark
+* correct version of java sdk
+* packages in the requirments.txt file
+  * findspark
+    * Spark might not be download on you sys.path, so findspark locates spark, to make it accessible in your IDE. 
+  * pytest
+    * This package is used for our unit test. This will promote cleaner code and will also verify we are getting the expected output from our functions/methods.
+
+# Unit Test
+To run the unit test you can execute it using the `docker-compose up test`
