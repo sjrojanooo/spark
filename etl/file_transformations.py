@@ -1,31 +1,35 @@
 import os
-import re
-import csv
-from io import StringIO, TextIOWrapper
 from zipfile import ZipFile
+import shutil
 
+# locate the zip file by walking through the projects directory. 
+def extract_zipfile(current_directory: str) -> str:
+    for root, dir, path in os.walk(current_directory, topdown=True):
+        if root.endswith('data'):
+            zip_file = [os.path.join(root, file) for file in path if file.endswith('zip')][0]
+            return zip_file
 
-def return_zipfile(data_dir: str) -> str:
-    adidas_file = ''; 
-    adidas_file = [os.path.join(data_dir, file) for file in os.listdir(data_dir) if file.endswith('.zip')][0]
-    return adidas_file
-
+# zip file object hold files that are called members, we want to locate csv file inside of the compressed file 
+# without unzipping. 
 def return_target_member(zo: object) -> str: 
     file_member = [file for file in zo.namelist() if (file.startswith('archive') and file.endswith('.csv'))][0]
     return file_member
 
-def unzip_in_memory(file: str) -> list:
-    in_memory_data = StringIO()
-    writer = csv.writer(in_memory_data, delimiter='|')
+# extracting the target file into the its own directory and return the target csv file located inside the zipped file
+def extract_and_return_target_file(file: str) -> str:
     with ZipFile(file) as fo: 
         target_file_member = return_target_member(fo)
-        with fo.open(target_file_member, mode='r') as file_contents:
-            reader = csv.reader(TextIOWrapper(file_contents, 'utf-8'))
-            writer.writerows(reader)
-    return in_memory_data.getvalue()
+        fo.extract(target_file_member, './data')
+    return target_file_member
 
-def clean_data_and_columns(in_memory_data: str) -> tuple:
-    split_data = in_memory_data.split('\n')
-    columns = [re.sub('(\s{1})','_', x.strip()).split('|') for x in split_data[:1]][0]
-    data = [re.sub('\r', '', x).split('|') for x in split_data[1:]]
-    return data, columns
+# copy over the file into a new directory, rename the file and remove the extracted archive directory
+def copy_file_to_processed(target_file_member: str) -> None:
+    full_path = os.path.join('./data', target_file_member)
+    csv_file = os.path.basename(full_path)
+    sales_path_and_file = os.path.join('./data/sales', csv_file)
+    new_name = os.path.join('./data/sales', 'adidas_us_retail_sales_data.csv')
+    if not os.path.exists('./data/sales'):
+        os.mkdir('./data/sales')
+        shutil.move(full_path, './data/sales')
+        os.rename(sales_path_and_file, new_name) 
+    shutil.rmtree('./data/archive')
