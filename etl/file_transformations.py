@@ -23,13 +23,10 @@ def extract_and_return_target_file(file: str) -> str:
     return target_file_member
 
 # copy over the file into a new directory, rename the file and remove the extracted archive directory
-def copy_file_to_processed(target_file_member: str) -> None:
-    full_path = os.path.join('./data', target_file_member)
-    csv_file = os.path.basename(full_path)
-    sales_path_and_file = os.path.join('./data/sales', csv_file)
-    new_name = os.path.join('./data/sales', 'adidas_us_retail_sales_data.csv')
+def move_and_rename_file(target_file_member: str) -> None:
+    csv_file = os.path.basename(target_file_member)
     if not os.path.exists('./data/sales'):
         os.mkdir('./data/sales')
-        shutil.move(full_path, './data/sales')
-        os.rename(sales_path_and_file, new_name) 
+        shutil.move(f'.data/{target_file_member}', './data/sales')
+        os.rename(f'./data/sales/{csv_file}', 'adidas_us_retail_sales_data.csv') 
     shutil.rmtree('./data/archive')
