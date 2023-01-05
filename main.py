@@ -15,15 +15,11 @@ def main():
     # read csv and generate dataframe
     adidas_sales = spark.read.csv('./data/sales/adidas_us_retail_sales_data.csv', sep=',', header=True)
     adidas_sales = adidas_transformations.transform_columns(adidas_sales)
+    adidas_sales = adidas_transformations.transform_literal_types(adidas_sales, ['price_per_unit', 'units_sold', 'total_sales', 'operating_profit', 'operating_margin'])
     adidas_sales = adidas_transformations.transform_datetime(adidas_sales)
-    # we cache here so that the spark query plan can make sure to save this dataframe for later use. 
-    # spark is lazy and makes sure to execute items from the top down. If we want it to store 
-    # an important item for later use, then we can use cache, only one of memory caption options available to us 
-    # in the spark sesssion. I plan to use this dataframe throughout, so why not help spark out.
     adidas_sales.cache()
-    # where has adidas been selling at the longest? 
-    adidas_day_diff = adidas_transformations.min_max_and_datediff(adidas_sales)
-    adidas_day_diff.show(truncate=False)
-    
+    retail_summary = adidas_transformations.min_max_and_datediff(adidas_sales)
+    retail_summary = adidas_transformations.sum_values_by_region(retail_summary)
+    retail_summary.show(truncate=False)
 if __name__ == '__main__':
     main()
