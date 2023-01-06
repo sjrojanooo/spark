@@ -58,7 +58,7 @@ Unit test promote better code and provide an assertion on the expcted outcome fo
 To run the unit test you can execute it using the `docker-compose up test`
 
 ### What is this program doing? 
-Well I manually downloaded this dataset from the Kaggle website, which came already zipped inside of an archive folder. I am using pythons `ZipFile` package to extract the adidas retail sales file without unzipping the object. We then use some basic os and shutil module functionalities to create a seaparate directory and rename the file to a more readable format. Next we use our `SparkSession` to read the file and commit some simple transformations. 
+Well I manually downloaded this dataset from the Kaggle website, which came already zipped inside of an archive folder. I am using pythons `ZipFile` package to extract the adidas retail sales file without unzipping the object. We then use some basic `os` and `shutil` functionalities to create a separate directory and rename the file to a more readable format. Next we use our `SparkSession` to read the file and commit some simple transformations. 
 
 1. Raname all columns to a more standardized format. 
 2. Transform colum values that have literal values such as `($, %, and ",")`
