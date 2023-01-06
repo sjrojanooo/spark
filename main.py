@@ -15,7 +15,9 @@ def main():
     # read csv and generate dataframe
     adidas_sales = spark.read.csv('./data/sales/adidas_us_retail_sales_data.csv', sep=',', header=True)
     adidas_sales = adidas_transformations.transform_columns(adidas_sales)
-    adidas_sales = adidas_transformations.transform_literal_types(adidas_sales, ['price_per_unit', 'units_sold', 'total_sales', 'operating_profit', 'operating_margin'])
+    adidas_sales = adidas_transformations.transform_literal_types(adidas_sales, ['price_per_unit', 'units_sold', 
+                                                                                'total_sales', 'operating_profit', 
+                                                                                'operating_margin'])
     adidas_sales = adidas_transformations.transform_datetime(adidas_sales)
     adidas_sales.cache()
     retail_summary = adidas_transformations.min_max_and_datediff(adidas_sales)

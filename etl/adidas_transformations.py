@@ -1,5 +1,5 @@
 from pyspark.sql import DataFrame, Window
-from pyspark.sql import functions as F, types as T
+from pyspark.sql import functions as F
 import re
 
 # rename all columns and substitue and an underscore in between words an white space
