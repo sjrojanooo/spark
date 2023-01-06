@@ -58,10 +58,10 @@ Unit test promote better code and provide an assertion on the expcted outcome fo
 To run the unit test you can execute it using the `docker-compose up test`
 
 ### What is this program doing? 
-Well I manually downloaded this dataset from the Kaggle website, which came already zipped inside of an archive folder. I am using pythons ZipFile built in in package to extract the adidas retail sales file without unzipping the object. We then use some basic os and shutil module functionalities to create a seaparate directory and rename the file to a more readable format. Next we use our SparkSession to read the file and commit some simple transformations. 
+Well I manually downloaded this dataset from the Kaggle website, which came already zipped inside of an archive folder. I am using pythons `ZipFile` package to extract the adidas retail sales file without unzipping the object. We then use some basic os and shutil module functionalities to create a seaparate directory and rename the file to a more readable format. Next we use our `SparkSession` to read the file and commit some simple transformations. 
 
 1. Raname all columns to a more standardized format. 
-2. Transform colum values that have literal values such as ($, %, and ",")
+2. Transform colum values that have literal values such as `($, %, and ",")`
 3. Transform datetime values from `(1/2/20 -> 2020/01/02)` formats so that we can use some date transformation funcitonalities. 
 4. Simple aggregations to identifies when adidas started selling their merchandise at a given store
 5. Sum all aggregated values by region using a window function 
