@@ -53,4 +53,18 @@ If you want to view what made up the layer image you can run `docker image histo
     * This package is used for our unit test. This will promote cleaner code and will also verify we are getting the expected output from our functions/methods.
 
 # Unit Test
+Unit test promote better code and provide an assertion on the expcted outcome for a given transformation. I am guilty of simply just writing code and trying to do much in a single functions. This has truly helped me create reusable / readable functions. It gives you a chance to create your own data and really understand the transformation that is taking place. Pytest Documenation can be found [here](https://docs.pytest.org/en/7.2.x/). You can find the test units inside of the `test/test_adidas_transformations.py`. We provide pytest configurations  inside of the `conftest.py` file, this allows us to provide a global scopr session that can be used throughout all of our test units. The obvious session that all of our units will need will be our SparkSession, since it's the library we we will be using to access all of sparks built in functionalities. 
+
 To run the unit test you can execute it using the `docker-compose up test`
+
+### What is this program doing? 
+Well I manually downloaded this dataset from the Kaggle website, which came already zipped inside of an archive folder. I am using pythons ZipFile built in in package to extract the adidas retail sales file without unzipping the object. We then use some basic os and shutil module functionalities to create a seaparate directory and rename the file to a more readable format. Next we use our SparkSession to read the file and commit some simple transformations. 
+
+1. Raname all columns to a more standardized format. 
+2. Transform colum values that have literal values such as ($, %, and ",")
+3. Transform datetime values from `(1/2/20 -> 2020/01/02)` formats so that we can use some date transformation funcitonalities. 
+4. Simple aggregations to identifies when adidas started selling their merchandise at a given store
+5. Sum all aggregated values by region using a window function 
+6. Find the percentage of each aggregated value that each store takes up in a given region. 
+7. write out the parquet file to a given location. 
+8. Why parquet? Well unlike csv's parquet file are much more powerful, having the ability to store data type for a given column. Instead of having to read the a file and commit the transformations explained above again, the data will already come prepared as is. When you get to handling bigger data, the partitioning of a file will come to play as well. 
